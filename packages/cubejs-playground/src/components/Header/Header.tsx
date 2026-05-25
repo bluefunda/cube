@@ -1,7 +1,5 @@
 import {
-  FileFilled,
   MenuOutlined,
-  SlackOutlined,
 } from '@ant-design/icons';
 import { Dropdown, Layout, Menu } from 'antd';
 import { useMediaQuery } from 'react-responsive';
@@ -9,7 +7,6 @@ import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 
 import { StyledMenu, StyledMenuButton, StyledMenuItem } from './Menu';
-import { RunOnCubeCloud } from './RunOnCubeCloud';
 
 const StyledHeader = styled(Layout.Header)`
   && {
@@ -38,9 +35,9 @@ export default function Header({ selectedKeys }: Props) {
     <StyledHeader>
       <div style={{ float: 'left' }}>
         <img
-          src="./cube-core-logo-adapted_for_dark_bg.svg"
-          style={{ height: 28, marginRight: 28 }}
-          alt=""
+          src="./bluefunda-logo.svg"
+          style={{ height: 32, marginRight: 28 }}
+          alt="BlueFunda"
         />
       </div>
 
@@ -63,24 +60,12 @@ export default function Header({ selectedKeys }: Props) {
           </StyledMenuItem>
 
           <StyledMenuButton
-            key="slack"
-            href="https://slack.cube.dev"
-            target="_blank"
-          >
-            <SlackOutlined />
-            Slack
-          </StyledMenuButton>
-
-          <StyledMenuButton
             key="docs"
-            href="https://cube.dev/docs/introduction"
+            href="https://docs.bluefunda.com"
             target="_blank"
           >
-            <FileFilled />
             Docs
           </StyledMenuButton>
-
-          <RunOnCubeCloud />
         </StyledMenu>
       )}
 
