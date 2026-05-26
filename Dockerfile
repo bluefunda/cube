@@ -14,8 +14,8 @@ COPY packages/cubejs-playground/public/favicon-32x32.png \
      /cube/node_modules/@cubejs-backend/server-core/playground/favicon-32x32.png
 
 # Replace browser tab title "Cube Playground" → "BlueFunda Analytics"
-COPY packages/cubejs-playground/index.html \
-     /cube/node_modules/@cubejs-backend/server-core/playground/index.html
+RUN sed -i 's/<title>Cube Playground<\/title>/<title>BlueFunda Analytics<\/title>/g' \
+    /cube/node_modules/@cubejs-backend/server-core/playground/index.html
 
 # Install jq and curl for Vault JSON parsing in the entrypoint script
 RUN apt-get update -qq && apt-get install -y --no-install-recommends jq curl \
