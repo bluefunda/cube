@@ -1,4 +1,5 @@
 **
+!docker-entrypoint.sh
 !package.json
 !tsconfig.base.json
 !tsconfig.json
