@@ -27,11 +27,11 @@ if [ -n "$VAULT_ADDR" ] && [ -n "$VAULT_TOKEN" ]; then
   # Vault KV v2 API: GET /v1/{mount}/data/{path}
   VAULT_RESPONSE=$(curl -sf $TLS_FLAG \
     -H "X-Vault-Token: ${VAULT_TOKEN}" \
-    "${VAULT_ADDR}/v1/${VAULT_MOUNT}/data/${VAULT_SECRET_PATH}")
+    "${VAULT_ADDR}/v1/${VAULT_MOUNT}/data/${VAULT_SECRET_PATH}" 2>/dev/null || true)
 
   if [ -z "$VAULT_RESPONSE" ]; then
-    echo "[entrypoint] ERROR: empty response from Vault. Check VAULT_ADDR, VAULT_TOKEN, and path." >&2
-    exit 1
+    echo "[entrypoint] WARNING: could not reach Vault or empty response — falling back to existing env vars." >&2
+    exec docker-entrypoint.sh "$@"
   fi
 
   # Helper: extract a field from Vault response, only export if non-empty
