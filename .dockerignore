@@ -1,5 +1,7 @@
 **
 !docker-entrypoint.sh
+!packages/cubejs-playground/index.html
+!packages/cubejs-playground/public/
 !package.json
 !tsconfig.base.json
 !tsconfig.json

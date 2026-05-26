@@ -13,13 +13,18 @@ COPY packages/cubejs-playground/public/favicon-16x16.png \
 COPY packages/cubejs-playground/public/favicon-32x32.png \
      /cube/node_modules/@cubejs-backend/server-core/playground/favicon-32x32.png
 
-# Install jq for Vault JSON parsing in the entrypoint script
+# Replace browser tab title "Cube Playground" → "BlueFunda Analytics"
+COPY packages/cubejs-playground/index.html \
+     /cube/node_modules/@cubejs-backend/server-core/playground/index.html
+
+# Install jq and curl for Vault JSON parsing in the entrypoint script
 RUN apt-get update -qq && apt-get install -y --no-install-recommends jq curl \
     && rm -rf /var/lib/apt/lists/*
 
-# Vault entrypoint: fetches DB credentials from Vault before starting Cube
+# Vault entrypoint: fetches PostgreSQL credentials from Vault before starting Cube
 COPY docker-entrypoint.sh /docker-entrypoint.sh
 RUN chmod +x /docker-entrypoint.sh
 
-# Wrap the official Cube entrypoint — CMD ["cubejs", "server"] is inherited from base
+# CMD must be re-declared — Docker resets it to null when ENTRYPOINT is overridden
 ENTRYPOINT ["/docker-entrypoint.sh"]
+CMD ["cubejs", "server"]
