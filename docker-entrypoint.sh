@@ -31,7 +31,6 @@ if [ -n "$VAULT_ADDR" ] && [ -n "$VAULT_TOKEN" ]; then
 
   if [ -z "$VAULT_RESPONSE" ]; then
     echo "[entrypoint] WARNING: could not reach Vault or empty response — falling back to existing env vars." >&2
-    exec docker-entrypoint.sh "$@"
   fi
 
   # Helper: extract a field from Vault response, only export if non-empty
@@ -68,5 +67,5 @@ else
   echo "[entrypoint] VAULT_ADDR or VAULT_TOKEN not set — skipping Vault, using existing env vars." >&2
 fi
 
-# Hand off to the official Cube entrypoint (which then runs: cubejs server)
-exec docker-entrypoint.sh "$@"
+# Hand off directly to cubejs server (skipping the original entrypoint — it only does exec "$@")
+exec /usr/local/bin/docker-entrypoint.sh "$@"
