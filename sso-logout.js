@@ -35,7 +35,13 @@
 
     btn.onclick = function (e) {
       e.preventDefault();
-      window.location.href = '/oauth2/sign_out';
+      // Step 1: clear oauth2-proxy Redis session
+      // Step 2: rd → Keycloak end_session to clear SSO session
+      // Step 3: Keycloak post_logout_redirect_uri → back to analytics (triggers login)
+      var keycloakLogout = 'https://auth.bluefunda.com/realms/trm/protocol/openid-connect/logout'
+        + '?client_id=cube'
+        + '&post_logout_redirect_uri=' + encodeURIComponent('https://analytics.bluefunda.com/');
+      window.location.href = '/oauth2/sign_out?rd=' + encodeURIComponent(keycloakLogout);
     };
 
     slack.parentNode.insertBefore(btn, slack.nextSibling);
