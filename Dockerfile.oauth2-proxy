@@ -1,10 +1,12 @@
-# Custom oauth2-proxy image with Vault secret fetching
-FROM quay.io/oauth2-proxy/oauth2-proxy:v7.6.0
+# Multi-stage: copy oauth2-proxy binary into Alpine so apk works
+FROM quay.io/oauth2-proxy/oauth2-proxy:v7.6.0 AS oauth2proxy
 
-USER root
+FROM alpine:3.19
+# Install curl and jq for Vault JSON parsing
+RUN apk add --no-cache curl jq ca-certificates
 
-# Install curl and jq for Vault JSON parsing in the entrypoint script
-RUN apk add --no-cache curl jq
+# Copy oauth2-proxy binary from official image
+COPY --from=oauth2proxy /bin/oauth2-proxy /bin/oauth2-proxy
 
 # Vault entrypoint: fetches Keycloak client_secret and cookie_secret from Vault
 COPY oauth2-proxy-entrypoint.sh /oauth2-proxy-entrypoint.sh
