@@ -1,6 +1,7 @@
 **
 !docker-entrypoint.sh
 !oauth2-proxy-entrypoint.sh
+!sso-logout.js
 !packages/cubejs-playground/public/
 !package.json
 !tsconfig.base.json
