@@ -4,6 +4,13 @@ on:
   workflow_dispatch:
   push:
     branches: [master]
+    paths:
+      - Dockerfile
+      - Dockerfile.oauth2-proxy
+      - docker-entrypoint.sh
+      - oauth2-proxy-entrypoint.sh
+      - sso-logout.js
+      - .github/workflows/release.yml
 
 jobs:
   deploy:
