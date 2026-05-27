@@ -6,8 +6,9 @@ on:
         description: 'Version'
         required: true
         default: 'latest'
-  workflow_run:
-    workflows: [ "Release" ]
+  # workflow_run disabled — BlueFunda does not run upstream E2E suite after image builds
+  # workflow_run:
+  #   workflows: [ "Release" ]
     types:
       - completed
   push:
