@@ -2,49 +2,32 @@
   function inject() {
     if (document.getElementById('sso-logout-btn')) return true;
 
-    // Find Slack link by text content
-    var slack = null;
-    var links = document.querySelectorAll('a');
-    for (var i = 0; i < links.length; i++) {
-      if (links[i].textContent.trim().toLowerCase() === 'slack') {
-        slack = links[i];
-        break;
-      }
-    }
-    if (!slack) return false;
+    var header = document.querySelector('header.ant-layout-header');
+    if (!header) return false;
+
+    header.style.position = 'relative';
+    header.style.paddingRight = '70px';
+
+    var style = document.createElement('style');
+    style.id = 'sso-logout-style';
+    style.innerHTML = '#sso-logout-btn:hover{border:1px solid #ffffff !important;}';
+    document.head.appendChild(style);
 
     var btn = document.createElement('a');
     btn.id = 'sso-logout-btn';
     btn.title = 'Sign Out';
-    btn.style.cssText = [
-      'display:inline-flex',
-      'align-items:center',
-      'justify-content:center',
-      'margin-left:16px',
-      'cursor:pointer',
-      'opacity:0.85',
-      'transition:opacity 0.2s',
-      'color:#ffffff',
-      'text-decoration:none',
-    ].join(';');
-
+    btn.style.cssText = 'position:absolute;top:9px;right:12px;z-index:999999;display:inline-flex;align-items:center;justify-content:center;height:31px;width:48px;cursor:pointer;color:#fff;text-decoration:none;border:1px solid rgba(255,255,255,.25);border-radius:4px;background:#3f3d66;';
     btn.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>';
-
-    btn.onmouseover = function () { this.style.opacity = '1'; };
-    btn.onmouseout  = function () { this.style.opacity = '0.85'; };
 
     btn.onclick = function (e) {
       e.preventDefault();
-      // Step 1: clear oauth2-proxy Redis session
-      // Step 2: rd → Keycloak end_session to clear SSO session
-      // Step 3: Keycloak post_logout_redirect_uri → back to analytics (triggers login)
       var keycloakLogout = 'https://auth.bluefunda.com/realms/trm/protocol/openid-connect/logout'
         + '?client_id=cube'
         + '&post_logout_redirect_uri=' + encodeURIComponent('https://analytics.bluefunda.com/');
       window.location.href = '/oauth2/sign_out?rd=' + encodeURIComponent(keycloakLogout);
     };
 
-    slack.parentNode.insertBefore(btn, slack.nextSibling);
+    header.appendChild(btn);
     return true;
   }
 
