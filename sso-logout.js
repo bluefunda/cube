@@ -2,7 +2,7 @@
   function inject() {
     if (document.getElementById('sso-logout-btn')) return true;
 
-    // Find the Slack link by text content (more reliable than href match)
+    // Find Slack link by text content
     var slack = null;
     var links = document.querySelectorAll('a');
     for (var i = 0; i < links.length; i++) {
@@ -19,33 +19,25 @@
     btn.style.cssText = [
       'display:inline-flex',
       'align-items:center',
-      'gap:5px',
-      'margin-left:12px',
-      'padding:4px 12px',
-      'background:#ff4d4f',
-      'color:#ffffff',
-      'border-radius:6px',
-      'font-size:13px',
-      'font-weight:500',
-      'font-family:-apple-system,BlinkMacSystemFont,sans-serif',
+      'justify-content:center',
+      'margin-left:16px',
       'cursor:pointer',
+      'opacity:0.85',
+      'transition:opacity 0.2s',
+      'color:#ffffff',
       'text-decoration:none',
-      'line-height:1.6',
-      'transition:background 0.2s',
     ].join(';');
 
-    btn.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>Sign Out';
+    btn.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>';
 
-    btn.onmouseover = function () { this.style.background = '#d9363e'; };
-    btn.onmouseout  = function () { this.style.background = '#ff4d4f'; };
+    btn.onmouseover = function () { this.style.opacity = '1'; };
+    btn.onmouseout  = function () { this.style.opacity = '0.85'; };
 
-    // Use window.location to bypass React Router intercepting the click
     btn.onclick = function (e) {
       e.preventDefault();
       window.location.href = '/oauth2/sign_out';
     };
 
-    // Insert after Slack in the same container
     slack.parentNode.insertBefore(btn, slack.nextSibling);
     return true;
   }
