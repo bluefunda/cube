@@ -10,6 +10,7 @@ on:
       - docker-entrypoint.sh
       - oauth2-proxy-entrypoint.sh
       - sso-logout.js
+      - .dockerignore
       - .github/workflows/release.yml
 
 jobs:
