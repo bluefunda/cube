@@ -18,7 +18,7 @@ RUN sed -i 's/<title>Cube Playground<\/title>/<title>BlueFunda Analytics<\/title
     /cube/node_modules/@cubejs-backend/server-core/playground/index.html
 
 # Inject SSO logout button next to the Slack icon in the Cube header
-COPY packages/cubejs-playground/public/sso-logout.js \
+COPY sso-logout.js \
      /cube/node_modules/@cubejs-backend/server-core/playground/sso-logout.js
 RUN sed -i 's|</body>|<script src="./sso-logout.js"></script></body>|' \
     /cube/node_modules/@cubejs-backend/server-core/playground/index.html
