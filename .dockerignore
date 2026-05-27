@@ -1,5 +1,6 @@
 **
 !docker-entrypoint.sh
+!oauth2-proxy-entrypoint.sh
 !packages/cubejs-playground/public/
 !package.json
 !tsconfig.base.json
